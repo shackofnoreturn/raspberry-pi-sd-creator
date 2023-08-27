@@ -5,14 +5,12 @@
 ############################################################
 Help() {
    # Display all available options
-   echo "Add description of the script functions here."
+   echo "How to use this scripts options."
    echo
-   echo "Syntax: scriptTemplate [-g|h|v|V]"
+   echo "Syntax: raspberry-pi-sd-creator [-h|-n]"
    echo "options:"
-   echo "g     Print the GPL license notification."
-   echo "h     Print this Help."
-   echo "v     Verbose mode."
-   echo "V     Print software version and exit."
+   echo "-h | --help     Print this Help."
+   echo "-n | --hostname Set a hostname."
    echo
 }
 
@@ -32,7 +30,7 @@ while [[ $# -ge 1 ]]
 do
     option="$1"
     case $option in
-        -h)  # display Help
+        -h|--help)  # display Help
             Help
             exit
             ;;
