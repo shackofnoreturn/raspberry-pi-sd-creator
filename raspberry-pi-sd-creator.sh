@@ -51,5 +51,19 @@ echo "hello $hostname!"
 # Check for external storage devices
 disk_name=$(diskutil list external | grep -o '^/dev\S*')
 if [ -z "$disk_name" ]; then
-    echo "Didn't find an external disk" ; exit -1
+    echo "Didn't find an external disk" 
+    exit -1
+fi
+
+# Check if there is only a single external storage device
+matches=$(echo -n "$disk_name" | grep -c '^')
+if [ $matches -ne 1 ]; then
+    echo "Found ${matches} external disk(s); expected 1"
+    exit -1
+fi
+
+# Check if the external storage device is available
+disk_free=$(df -l -h | grep "$disk_name" | egrep -oi '(\s+/Volumes/.*)' | egrep -o '(/.*)')
+if [ -z "$disk_free" ]; then
+    echo "Disk ${disk_name} doesn't appear mounted. Try reinserting SD card" ; exit -1
 fi
