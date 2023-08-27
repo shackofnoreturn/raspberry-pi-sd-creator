@@ -15,16 +15,12 @@ Help() {
 }
 
 ############################################################
-# Main program                                             #
+# Process the input options                                #
 ############################################################
-############################################################
-
+# Defaults
 # Set variables
 hostname="SHACKPI"
 
-############################################################
-# Process the input options                                #
-############################################################
 # Get the options
 while [[ $# -ge 1 ]] 
 do
@@ -45,4 +41,15 @@ do
     shift
 done
 
+############################################################
+# Main program                                             #
+############################################################
+############################################################
+
 echo "hello $hostname!"
+
+# Check for external storage devices
+disk_name=$(diskutil list external | grep -o '^/dev\S*')
+if [ -z "$disk_name" ]; then
+    echo "Didn't find an external disk" ; exit -1
+fi
