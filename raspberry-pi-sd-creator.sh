@@ -68,7 +68,24 @@ if [ -z "$disk_free" ]; then
     echo "Disk ${disk_name} doesn't appear mounted. Try reinserting SD card" ; exit -1
 fi
 
+# Select Volume
+volume=$(echo "$disk_free" | sed -e 's/\/.*\///g')
+
 # Display disk information
 diskutil list external
 echo $disk_free
 echo
+
+# Formatting disk
+read -p "Format ${disk_name} (${volume}) (y/n)?" CONT
+if [ "$CONT" = "n" ]
+    then
+        exit -1
+fi
+
+echo "Formatting ${disk_name} as FAT32"
+sudo diskutil eraseDisk FAT32 PI MBRFormat "$disk_name"
+
+if [ $? -ne 0 ]; then
+    echo "Formatting disk ${disk_name} failed" ; exit -1;
+fi
