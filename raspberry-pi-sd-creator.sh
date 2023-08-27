@@ -28,6 +28,9 @@ do
             Help
             exit
             ;;
+        \?) # Invalid option
+         echo "Error: Invalid option"
+         exit;;
     esac
     shift
 done
