@@ -67,3 +67,8 @@ disk_free=$(df -l -h | grep "$disk_name" | egrep -oi '(\s+/Volumes/.*)' | egrep 
 if [ -z "$disk_free" ]; then
     echo "Disk ${disk_name} doesn't appear mounted. Try reinserting SD card" ; exit -1
 fi
+
+# Display disk information
+diskutil list external
+echo $disk_free
+echo
