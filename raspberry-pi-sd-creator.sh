@@ -17,22 +17,34 @@ Help() {
 }
 
 ############################################################
+# Main program                                             #
+############################################################
+############################################################
+
+# Set variables
+hostname="SHACKPI"
+
+############################################################
 # Process the input options                                #
 ############################################################
 # Get the options
-while getopts ":h" option 
+while [[ $# -ge 1 ]] 
 do
+    option="$1"
     case $option in
-        h) # display Help
-            echo "HELP"
+        -h)  # display Help
             Help
             exit
             ;;
-        \?) # Invalid option
-         echo "Error: Invalid option"
-         exit;;
+        -n|--hostname)  # Enter a name
+            hostname=$2
+            shift
+            ;;
+        *) # Invalid option
+            echo "Error: Invalid option"
+            exit;;
     esac
     shift
 done
 
-echo "Hello World"
+echo "hello $hostname!"
