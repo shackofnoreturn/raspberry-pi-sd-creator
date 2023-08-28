@@ -122,3 +122,27 @@ if [ ! -f $image_zip ]; then
         echo "Download failed" ; exit -1;
     fi
 fi
+
+# Unzipping image file
+echo "Extracting ${image_zip} ISO"
+unzip -p $image_zip > $image_iso
+
+if [ $? -ne 0 ]; then
+    echo "Unzipping image ${image_zip} failed" ; exit -1;
+fi
+
+# Writing image
+echo "Unmounting ${disk_name} before writing image"
+diskutil unmountdisk "$disk_name"
+
+if [ $? -ne 0 ]; then
+    echo "Unmounting disk ${disk_name} failed" ; exit -1;
+fi
+
+echo "Copying ${image_iso} to ${disk_name}. ctrl+t as desired for status"
+sudo dd bs=1m if="$image_iso" of="$disk_name" conv=sync
+
+if [ $? -ne 0 ]; then
+  echo "Copying ${image_iso} to ${disk_name} failed" ; exit -1
+fi
+
