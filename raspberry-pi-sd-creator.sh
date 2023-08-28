@@ -101,3 +101,24 @@ sudo diskutil eraseDisk FAT32 PI MBRFormat "$disk_name"
 if [ $? -ne 0 ]; then
     echo "Formatting disk ${disk_name} failed" ; exit -1;
 fi
+
+# Downloading image
+image_path=./downloads
+image_zip="$image_path/image.zip"
+image_iso="$image_path/image.img"
+
+# TODO - Check latest ver/sha online, download only if newer
+# TODO - Tested on a mac wget not available right off the bat
+# https://downloads.raspberrypi.org/raspbian_lite/images/?C=M;O=D
+# Download image when there is none available
+if [ ! -f $image_zip ]; then
+    mkdir -p ./downloads
+    echo "Downloading latest Raspbian lite image"
+    # curl often gave "error 18 - transfer closed with outstanding read data remaining"
+    wget -O $image_zip "https://downloads.raspberrypi.org/raspbian_lite_latest"
+    # curl -o $image_zip "https://downloads.raspberrypi.org/raspbian_lite_brewlatest"
+
+    if [ $? -ne 0 ]; then
+        echo "Download failed" ; exit -1;
+    fi
+fi
