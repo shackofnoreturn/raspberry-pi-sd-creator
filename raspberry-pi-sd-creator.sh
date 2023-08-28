@@ -166,3 +166,7 @@ touch "$volume"/ssh
 if [ $? -ne 0 ]; then
   echo "Configuring ssh failed" ; exit -1
 fi
+
+# Eject SD Card
+echo "Image burned. Remove SD card, insert in PI and power on"
+sudo diskutil eject "$disk_name"
