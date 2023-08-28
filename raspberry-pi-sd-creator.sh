@@ -146,3 +146,23 @@ if [ $? -ne 0 ]; then
   echo "Copying ${image_iso} to ${disk_name} failed" ; exit -1
 fi
 
+# Remount for further configuration
+attempt=0
+until [ $attempt -ge 3 ]
+do
+  sleep 2s
+  echo "Remounting ${disk_name}"
+  diskutil mountDisk "$disk_name" && break
+  attempt=$[$attempt+1]
+done
+
+# Targetting SD card volume for further configuration
+volume="/Volumes/boot"
+
+# Enabling SSH
+echo "Enabling ssh"
+touch "$volume"/ssh
+
+if [ $? -ne 0 ]; then
+  echo "Configuring ssh failed" ; exit -1
+fi
