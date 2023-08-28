@@ -52,10 +52,19 @@ if [ -z "$hostname" ]; then
 fi
 
 # Check for external storage devices
-disk_name=$(diskutil list external | grep -o '^/dev\S*')
-if [ -z "$disk_name" ]; then
-    echo "Didn't find an external disk" 
-    exit -1
+# TODO - Automatic disk selection
+#disk_name=$(diskutil list external | grep -o '^/dev\S*')
+#if [ -z "$disk_name" ]; then
+#    echo "Didn't find an external disk" 
+#    exit -1
+#fi
+
+# Manual drive selection
+diskutil list
+read -p "Select your PI's sd card (ex: /dev/disk2):" disk_name
+if [ "$disk_name" = "" ]
+    then
+        exit -1
 fi
 
 # Check if there is only a single external storage device
