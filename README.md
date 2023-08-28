@@ -6,5 +6,5 @@ Script to flash a RPi image to an sd card as simple as possible
 2. Execute the command below
 
 ```bash
-./raspberry-pi-sd-creator.sh
+./raspberry-pi-sd-creator.sh --hostname yourhostnamehere
 ```

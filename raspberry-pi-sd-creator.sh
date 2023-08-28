@@ -47,7 +47,7 @@ done
 
 # Check if a hostname was entered
 if [ -z "$hostname" ]; then
-  echo "Final Pi host name is required (-h | --host)" >&2
+  echo "Final Pi host name is required (-n | --hostname)" >&2
   exit 1
 fi
 
