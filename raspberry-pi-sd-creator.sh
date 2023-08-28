@@ -19,7 +19,7 @@ Help() {
 ############################################################
 # Defaults
 # Set variables
-hostname="SHACKPI"
+hostname=""
 
 # Get the options
 while [[ $# -ge 1 ]] 
@@ -44,9 +44,12 @@ done
 ############################################################
 # Main program                                             #
 ############################################################
-############################################################
 
-echo "hello $hostname!"
+# Check if a hostname was entered
+if [ -z "$hostname" ]; then
+  echo "Final Pi host name is required (-h | --host)" >&2
+  exit 1
+fi
 
 # Check for external storage devices
 disk_name=$(diskutil list external | grep -o '^/dev\S*')
