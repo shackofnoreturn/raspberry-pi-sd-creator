@@ -156,6 +156,10 @@ do
   attempt=$[$attempt+1]
 done
 
+# ISO Cleanup
+echo "Removing ${image_iso}. Re-extract later if needed from ${image_zip}"
+rm $image_iso
+
 # Targetting SD card volume for further configuration
 volume="/Volumes/boot"
 
