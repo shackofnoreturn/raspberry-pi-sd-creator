@@ -168,5 +168,16 @@ if [ $? -ne 0 ]; then
 fi
 
 # Eject SD Card
-echo "Image burned. Remove SD card, insert in PI and power on"
+echo "The image is burned. Remove the SD card, insert in PI and power on"
 sudo diskutil eject "$disk_name"
+
+# SSH cleanup, prevents issues when reflashing a device
+echo "Removing any prior PI SSH known hosts entry"
+ssh-keygen -R raspberrypi.local # initial
+ssh-keygen -R "$host_name.local"
+
+# Final instruction to user
+echo "Power up the PI and give it a minute"
+echo "Then remotely access the device using the command below:"
+echo "  ssh pi@raspberrypi.local"
+echo "  Password: raspberry"
