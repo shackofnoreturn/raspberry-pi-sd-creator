@@ -171,6 +171,15 @@ if [ $? -ne 0 ]; then
   echo "Configuring ssh failed" ; exit -1
 fi
 
+# Setup script for additional configuration
+echo "Copying setup script. After Pi boot, run: sudo /boot/setup.sh"
+cp setup.sh "$volume"
+
+# Setting variables
+echo "Modifying setup script"
+# Replace "${host}" placeholder in the setup script on SD card with $hostname passed to script
+sed -i -e "s/\${host}/${hostname}/" "$volume/setup.sh"
+
 # Eject SD Card
 echo "The image is burned. Remove the SD card, insert in PI and power on"
 sudo diskutil eject "$disk_name"
@@ -178,7 +187,7 @@ sudo diskutil eject "$disk_name"
 # SSH cleanup, prevents issues when reflashing a device
 echo "Removing any prior PI SSH known hosts entry"
 ssh-keygen -R raspberrypi.local # initial
-ssh-keygen -R "$host_name.local"
+ssh-keygen -R "$hostname.local"
 
 # Final instruction to user
 echo "Power up the PI and give it a minute"
